@@ -4,6 +4,7 @@ import 'package:flutter_ducafecat_news/common/entitys/entitys.dart';
 import 'package:flutter_ducafecat_news/common/utils/utils.dart';
 import 'package:flutter_ducafecat_news/common/values/values.dart';
 import 'package:flutter_ducafecat_news/common/widgets/widgets.dart';
+import 'package:flutter_ducafecat_news/global.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({Key key}) : super(key: key);
@@ -28,25 +29,27 @@ class _SingInPageState extends State<SignInPage> {
 
   // 执行登录操作
   _handleSignIn() async {
-    if (!duIsEmail(_emailController.value.text)) {
-      toastInfo(msg: '请正确输入邮件');
-      return;
-    }
-    if (!duCheckStringLength(_passController.value.text, 6)) {
-      toastInfo(msg: '密码不能小于6位');
-      return;
-    }
+    // if (!duIsEmail(_emailController.value.text)) {
+    //   toastInfo(msg: '请正确输入邮件');
+    //   return;
+    // }
+    // if (!duCheckStringLength(_passController.value.text, 6)) {
+    //   toastInfo(msg: '密码不能小于6位');
+    //   return;
+    // }
 
-    UserRequestEntity params = UserRequestEntity(
+    UserLoginRequestEntity params = UserLoginRequestEntity(
       email: _emailController.value.text,
       password: duSHA256(_passController.value.text),
     );
 
-    UserResponseEntity res = await UserAPI.login(params: params);
+    UserLoginResponseEntity userProfile = await UserAPI.login(params: params);
+    Global.saveProfile(userProfile);
 
-    print(res.accessToken);
-    // 写本地 access_token , 不写全局，业务：离线登录
-    // 全局数据 gUser
+    Navigator.pushNamed(
+      context,
+      "/app",
+    );
   }
 
   // logo
