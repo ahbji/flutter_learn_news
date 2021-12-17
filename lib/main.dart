@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ducafecat_news/global.dart';
-import 'package:flutter_ducafecat_news/pages/welcome/welcomePage.dart';
+import 'package:flutter_ducafecat_news/pages/index/index.dart';
 import 'package:flutter_ducafecat_news/routes.dart';
 
 // void main() => runApp(MyApp());
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Material App',
       routes: staticRoutes,
-      home: WelcomePage(),
+      home: IndexPage(),
       debugShowCheckedModeBanner: false,
     );
   }
