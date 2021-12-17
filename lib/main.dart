@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ducafecat_news/pages/welcome/welcomePage.dart';
+import 'package:flutter_ducafecat_news/routes.dart';
 
 void main() => runApp(MyApp());
 
@@ -8,6 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
+      routes: staticRoutes,
       home: WelcomePage(),
       debugShowCheckedModeBanner: false,
     );
