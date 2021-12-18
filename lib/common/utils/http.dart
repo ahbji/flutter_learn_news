@@ -224,7 +224,6 @@ class HttpUtil {
   }
 
   /// restful get 操作
-  /// refresh 是否下拉刷新 默认 false
   /// noCache 是否不缓存 默认 true
   /// list 是否列表 默认 false
   /// cacheKey 缓存key
@@ -234,18 +233,18 @@ class HttpUtil {
     @required BuildContext context,
     dynamic params,
     Options options,
-    bool refresh = false,
     bool noCache = !CACHE_ENABLE,
     bool list = false,
     String cacheKey,
+    bool cacheDisk = false,
   }) async {
     Options requestOptions = options ?? Options();
     requestOptions = requestOptions.merge(extra: {
       "context": context,
-      "refresh": refresh,
       "noCache": noCache,
       "list": list,
       "cacheKey": cacheKey,
+      "cacheDisk": cacheDisk,
     });
     Map<String, dynamic> _authorization = getAuthorizationHeader();
     if (_authorization != null) {
