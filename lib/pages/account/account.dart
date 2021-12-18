@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ducafecat_news/common/provider/provider.dart';
+import 'package:flutter_ducafecat_news/common/utils/utils.dart';
 import 'package:flutter_ducafecat_news/global.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,13 @@ class _AccountPageState extends State<AccountPage> {
     return Column(
       children: [
         Text('用户： ${Global.profile.displayName}'),
+        Divider(),
+        MaterialButton(
+          onPressed: () {
+            goLoginPage(context);
+          },
+          child: Text('退出'),
+        ),
         Divider(),
         MaterialButton(
           onPressed: () => appState.switchGrayFilter(),
