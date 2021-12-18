@@ -8,13 +8,11 @@ class NewsAPI {
   static Future<NewsPageListResponseEntity> newsPageList({
     @required BuildContext context,
     NewsPageListRequestEntity params,
-    bool cacheDisk = false,
   }) async {
     var response = await HttpUtil().get(
       '/news',
       context: context,
       params: params?.toJson(),
-      cacheDisk: cacheDisk,
     );
     return NewsPageListResponseEntity.fromJson(response);
   }
@@ -23,13 +21,11 @@ class NewsAPI {
   static Future<NewsRecommendResponseEntity> newsRecommend({
     @required BuildContext context,
     NewsRecommendRequestEntity params,
-    bool cacheDisk = false,
   }) async {
     var response = await HttpUtil().get(
       '/news/recommend',
       context: context,
       params: params?.toJson(),
-      cacheDisk: cacheDisk,
     );
     return NewsRecommendResponseEntity.fromJson(response);
   }
@@ -37,12 +33,10 @@ class NewsAPI {
   /// 分类
   static Future<List<CategoryResponseEntity>> categories({
     @required BuildContext context,
-    bool cacheDisk = false,
   }) async {
     var response = await HttpUtil().get(
       '/categories',
       context: context,
-      cacheDisk: cacheDisk,
     );
     return response
         .map<CategoryResponseEntity>(
@@ -53,12 +47,10 @@ class NewsAPI {
   /// 频道
   static Future<List<ChannelResponseEntity>> channels({
     @required BuildContext context,
-    bool cacheDisk = false,
   }) async {
     var response = await HttpUtil().get(
       '/channels',
       context: context,
-      cacheDisk: cacheDisk,
     );
     return response
         .map<ChannelResponseEntity>(
@@ -70,13 +62,11 @@ class NewsAPI {
   static Future<List<TagResponseEntity>> tags({
     @required BuildContext context,
     TagRequestEntity params,
-    bool cacheDisk = false,
   }) async {
     var response = await HttpUtil().get(
       '/tags',
       context: context,
       params: params?.toJson(),
-      cacheDisk: cacheDisk,
     );
     return response
         .map<TagResponseEntity>((item) => TagResponseEntity.fromJson(item))
