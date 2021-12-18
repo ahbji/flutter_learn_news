@@ -27,6 +27,21 @@ class NetCache extends Interceptor {
   onRequest(RequestOptions options) async {
     if (!CACHE_ENABLE) return options;
 
+    // refresh标记是否是"下拉刷新"
+    bool refresh = options.extra["refresh"] == true;
+
+    // 如果是下拉刷新，先删除相关缓存
+    if (refresh) {
+      if (options.extra["list"] == true) {
+        //若是列表，则只要url中包含当前path的缓存全部删除（简单实现，并不精准）
+        cache.removeWhere((key, v) => key.contains(options.path));
+      } else {
+        // 如果不是列表，则只删除uri相同的缓存
+        delete(options.uri.toString());
+      }
+
+      return options;
+    }
     // get 请求，开启缓存
     if (options.extra["noCache"] != true &&
         options.method.toLowerCase() == 'get') {

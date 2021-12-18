@@ -8,6 +8,7 @@ import 'package:flutter_ducafecat_news/pages/main/channels_widget.dart';
 import 'package:flutter_ducafecat_news/pages/main/news_item_widget.dart';
 import 'package:flutter_ducafecat_news/pages/main/newsletter_widget.dart';
 import 'package:flutter_ducafecat_news/pages/main/recommend_widget.dart';
+import 'package:flutter_easyrefresh/easy_refresh.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({Key key}) : super(key: key);
@@ -17,6 +18,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  EasyRefreshController _controller;
+
   NewsPageListResponseEntity _newsPageList; // 新闻翻页
   NewsRecommendResponseEntity _newsRecommend; // 新闻推荐
   List<CategoryResponseEntity> _categories; // 分类
@@ -27,6 +30,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    _controller = EasyRefreshController();
     _loadAllData();
   }
 
@@ -54,16 +58,19 @@ class _MainPageState extends State<MainPage> {
 
   // 拉取推荐、新闻
   _loadNewsData(
-    categoryCode,
-  ) async {
+    categoryCode, {
+    bool refresh = false,
+  }) async {
     _selCategoryCode = categoryCode;
     _newsRecommend = await NewsAPI.newsRecommend(
       context: context,
       params: NewsRecommendRequestEntity(categoryCode: categoryCode),
+      refresh: refresh,
     );
     _newsPageList = await NewsAPI.newsPageList(
       context: context,
       params: NewsPageListRequestEntity(categoryCode: categoryCode),
+      refresh: refresh,
     );
 
     if (mounted) {
@@ -173,15 +180,24 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          _buildCategories(),
-          _buildRecommend(),
-          _buildChannels(),
-          _buildNewsList(),
-          _buildEmailSubscribe(),
-        ],
+    return EasyRefresh(
+      enableControlFinishRefresh: true,
+      controller: _controller,
+      header: ClassicalHeader(),
+      onRefresh: () async {
+        await _loadNewsData(_selCategoryCode, refresh: true);
+        _controller.finishRefresh();
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _buildCategories(),
+            _buildRecommend(),
+            _buildChannels(),
+            _buildNewsList(),
+            _buildEmailSubscribe(),
+          ],
+        ),
       ),
     );
   }

@@ -5,14 +5,17 @@ import 'package:flutter_ducafecat_news/common/utils/utils.dart';
 /// 新闻
 class NewsAPI {
   /// 翻页
+  /// refresh 是否刷新
   static Future<NewsPageListResponseEntity> newsPageList({
     @required BuildContext context,
     NewsPageListRequestEntity params,
+    bool refresh = false,
   }) async {
     var response = await HttpUtil().get(
       '/news',
       context: context,
       params: params?.toJson(),
+      refresh: refresh,
     );
     return NewsPageListResponseEntity.fromJson(response);
   }
@@ -21,11 +24,13 @@ class NewsAPI {
   static Future<NewsRecommendResponseEntity> newsRecommend({
     @required BuildContext context,
     NewsRecommendRequestEntity params,
+    bool refresh = false,
   }) async {
     var response = await HttpUtil().get(
       '/news/recommend',
       context: context,
       params: params?.toJson(),
+      refresh: refresh,
     );
     return NewsRecommendResponseEntity.fromJson(response);
   }

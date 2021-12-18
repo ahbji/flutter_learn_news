@@ -29,6 +29,9 @@ dependencies:
 
   # 屏幕适配
   flutter_screenutil: ^1.0.2
+
+  # 上下拉刷新
+  flutter_easyrefresh: ^2.1.0
   
   # toast
   fluttertoast: ^3.1.3
