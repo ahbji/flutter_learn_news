@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_ducafecat_news/common/entitys/entitys.dart';
+import 'package:flutter_ducafecat_news/common/provider/provider.dart';
 import 'package:flutter_ducafecat_news/common/utils/utils.dart';
 import 'package:flutter_ducafecat_news/common/values/values.dart';
 
@@ -12,6 +13,9 @@ class Global {
   static UserLoginResponseEntity profile = UserLoginResponseEntity(
     accessToken: null,
   );
+
+  /// 应用状态,
+  static AppState appState = AppState();
 
   /// 是否 release
   static bool get isRelease => bool.fromEnvironment("dart.vm.product");
