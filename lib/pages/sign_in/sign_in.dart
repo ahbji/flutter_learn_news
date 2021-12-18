@@ -43,7 +43,10 @@ class _SingInPageState extends State<SignInPage> {
       password: duSHA256(_passController.value.text),
     );
 
-    UserLoginResponseEntity userProfile = await UserAPI.login(params: params);
+    UserLoginResponseEntity userProfile = await UserAPI.login(
+      params: params,
+      context: context,
+    );
     Global.saveProfile(userProfile);
 
     Navigator.pushNamed(

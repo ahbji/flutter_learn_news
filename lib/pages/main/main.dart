@@ -33,12 +33,42 @@ class _MainPageState extends State<MainPage> {
 
   // 读取所有数据
   _loadAllData() async {
-    _categories = await NewsAPI.categories();
-    _channels = await NewsAPI.channels();
-    _newsRecommend = await NewsAPI.newsRecommend();
-    _newsPageList = await NewsAPI.newsPageList();
+    _categories = await NewsAPI.categories(
+      context: context,
+    );
+    _channels = await NewsAPI.channels(
+      context: context,
+    );
+    _newsRecommend = await NewsAPI.newsRecommend(
+      context: context,
+    );
+    _newsPageList = await NewsAPI.newsPageList(
+      context: context,
+    );
 
     _selCategoryCode = _categories.first.code;
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  // 拉取推荐、新闻
+  _loadNewsData(
+    categoryCode, {
+    bool refresh = false,
+  }) async {
+    _selCategoryCode = categoryCode;
+    _newsRecommend = await NewsAPI.newsRecommend(
+      context: context,
+      params: NewsRecommendRequestEntity(categoryCode: categoryCode),
+      refresh: refresh,
+    );
+    _newsPageList = await NewsAPI.newsPageList(
+      context: context,
+      params: NewsPageListRequestEntity(categoryCode: categoryCode),
+      refresh: refresh,
+    );
 
     if (mounted) {
       setState(() {});
@@ -53,7 +83,7 @@ class _MainPageState extends State<MainPage> {
             categories: _categories,
             selCategoryCode: _selCategoryCode,
             onTap: (CategoryResponseEntity item) {
-              // _loadNewsData(item.code);
+              _loadNewsData(item.code);
             },
           );
   }
